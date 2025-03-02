@@ -1,0 +1,3 @@
+{
+  "4bde14338b2e74fcf81b5c85fe8da2847deab8ed": "query GetProjects($current: Int!, $pageSize: Int!) { getProjects(current: $current, pageSize: $pageSize) { data { description id } total } }"
+}

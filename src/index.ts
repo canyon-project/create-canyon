@@ -30,7 +30,7 @@ async function getProjectName() {
 }
 
 // 创建目标目录
-function createTargetDir(projectName:string) {
+function createTargetDir(projectName: string) {
   const targetDir = path.resolve(cwd, projectName);
   if (!fs.existsSync(targetDir)) {
     fs.mkdirSync(targetDir, { recursive: true });
@@ -38,26 +38,37 @@ function createTargetDir(projectName:string) {
   return targetDir;
 }
 
-// 复制模板文件
-function copyTemplateFiles(targetDir:string) {
-  const templateDir = path.resolve(fileURLToPath(import.meta.url), '../../template-canyon');
-  const filesToCopy = fs.readdirSync(templateDir);
-  filesToCopy.forEach((file) => {
-    const sourcePath = path.join(templateDir, file);
-    const targetPath = path.join(targetDir, file);
-    const stat = fs.statSync(sourcePath);
+// 定义需要重命名的文件映射
+const renameFiles: Record<string, string | undefined> = {
+  _gitignore: '.gitignore',
+};
+
+// 递归重命名文件
+function renameCopiedFiles(dir: string) {
+  const files = fs.readdirSync(dir);
+  files.forEach((file) => {
+    const filePath = path.join(dir, file);
+    const stat = fs.statSync(filePath);
     if (stat.isDirectory()) {
-      fs.mkdirSync(targetPath, { recursive: true });
-      const subFiles = fs.readdirSync(sourcePath);
-      subFiles.forEach((subFile) => {
-        const subSourcePath = path.join(sourcePath, subFile);
-        const subTargetPath = path.join(targetPath, subFile);
-        fs.copyFileSync(subSourcePath, subTargetPath);
-      });
-    } else {
-      fs.copyFileSync(sourcePath, targetPath);
+      // 如果是目录，递归调用 renameCopiedFiles
+      renameCopiedFiles(filePath);
+    } else if (renameFiles[file]) {
+      const oldPath = filePath;
+      const newPath = path.join(dir, renameFiles[file]!);
+      fs.renameSync(oldPath, newPath);
     }
   });
+}
+
+// 复制模板文件
+function copyTemplateFiles(targetDir: string) {
+  const templateDir = path.resolve(fileURLToPath(import.meta.url), '../../template-canyon');
+
+  // **使用 fs.cpSync 递归复制**
+  fs.cpSync(templateDir, targetDir, { recursive: true });
+
+  // 复制完成后重命名文件
+  renameCopiedFiles(targetDir);
 }
 
 // 主函数
