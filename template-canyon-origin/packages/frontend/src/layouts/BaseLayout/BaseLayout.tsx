@@ -5,6 +5,7 @@ import { Layout, Menu, theme } from 'antd';
 import Logo from '@/layouts/BaseLayout/Logo.tsx';
 import UserDropdown from "@/layouts/BaseLayout/user-profile-popover.tsx";
 import {useLocation, useNavigate} from "@tanstack/react-router";
+import { useTranslation } from 'react-i18next';
 
 const { Sider } = Layout;
 
@@ -24,10 +25,7 @@ function getItem(
   } as MenuItem;
 }
 
-const items: MenuItem[] = [
-  getItem('Projects', '', <FolderOutlined />),
-  getItem('Settings', 'settings', <SettingOutlined />),
-];
+
 
 const App: React.FC<{
   children?: React.ReactNode;
@@ -43,6 +41,14 @@ const App: React.FC<{
       console.log(r)
     })
   },[pathname])
+
+  const {t} = useTranslation()
+
+  const items: MenuItem[] = [
+    getItem(t('menus.projects'), 'projects', <FolderOutlined />),
+    getItem(t('menus.settings'), 'settings', <SettingOutlined />),
+  ];
+
   return (
     <div style={{ minHeight: '100vh' }} className={'flex'}>
       <div

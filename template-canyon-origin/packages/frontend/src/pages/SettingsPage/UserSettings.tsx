@@ -48,41 +48,6 @@ export default function UserSettings() {
 
       <Divider style={{ margin: "24px 0" }} />
 
-      {/* Default Team Section */}
-      <Row align="middle" justify="space-between" style={{ marginBottom: "16px" }}>
-        <Col>
-          <Space direction="vertical" size={4}>
-            <Text  >
-              Default Team
-            </Text>
-            <Text type="secondary">
-              New projects and deployments from your personal scope will be created in this Vercel team.
-            </Text>
-          </Space>
-        </Col>
-        <Col>
-          <Select
-            defaultValue="canyon-project"
-            style={{ width: "300px" }}
-            options={[
-              {
-                value: "canyon-project",
-                label: (
-                  <Space>
-                    <Avatar size="small" style={{ backgroundColor: "#1677ff" }}>
-                      C
-                    </Avatar>
-                    canyon-project
-                  </Space>
-                ),
-              },
-            ]}
-          />
-        </Col>
-      </Row>
-
-      <Divider style={{ margin: "24px 0" }} />
-
       {/* Interface Theme Section */}
       <Row align="middle" justify="space-between" style={{ marginBottom: "16px" }}>
         <Col>

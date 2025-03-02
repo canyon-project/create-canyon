@@ -679,7 +679,7 @@ const PipelineCoverageDetails: React.FC = () => {
   );
 
   return (
-    <div className="p-4  bg-white shadow w-full">
+    <div className="  bg-white shadow w-full">
       <div className="mb-4">
         {/* 添加 commit 信息显示 */}
         <div className=" p-3  text-sm">
