@@ -1,6 +1,6 @@
 {
   "name": "create-canyon",
-  "version": "6.3.2",
+  "version": "6.3.3",
   "type": "module",
   "license": "MIT",
   "author": "Allen Zhang",
@@ -15,7 +15,7 @@
   ],
   "scripts": {
     "dev": "unbuild --stub",
-    "build": "unbuild",
+    "build": "node gen.js && unbuild",
     "typecheck": "tsc --noEmit",
     "prepublishOnly": "npm run build"
   },
