@@ -1,8 +1,10 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import { FolderOutlined, SettingOutlined } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
 import { Layout, Menu, theme } from 'antd';
 import Logo from '@/layouts/BaseLayout/Logo.tsx';
+import UserDropdown from "@/layouts/BaseLayout/user-profile-popover.tsx";
+import {useLocation, useNavigate} from "@tanstack/react-router";
 
 const { Sider } = Layout;
 
@@ -23,33 +25,49 @@ function getItem(
 }
 
 const items: MenuItem[] = [
-  getItem('Projects', '1', <FolderOutlined />),
-  getItem('Settings', '2', <SettingOutlined />),
+  getItem('Projects', '', <FolderOutlined />),
+  getItem('Settings', 'settings', <SettingOutlined />),
 ];
 
 const App: React.FC<{
   children?: React.ReactNode;
 }> = ({ children }) => {
   const { token: token } = theme.useToken();
+  const loc = useLocation()
+  const [pathname, setPathname] = React.useState(loc.pathname)
+  const nav= useNavigate()
+  useEffect(()=>{
+    nav({
+      to:`/${pathname}`
+    }).then(r=>{
+      console.log(r)
+    })
+  },[pathname])
   return (
-    <Layout style={{ minHeight: '100vh' }}>
-      <Sider
-        theme={'light'}
+    <div style={{ minHeight: '100vh' }} className={'flex'}>
+      <div
         style={{
-          borderRight: `1px solid ${token.colorBorder}`,
+          borderRight: `1px solid ${token.colorBorderSecondary}`,
+          width:'275px',
+          background:'#FAFAFA'
         }}
       >
         <Logo />
-        <div
-          className={'mb-1'}
-          style={{
-            borderBottom: `1px solid ${token.colorBorder}`,
+        <Menu
+          onSelect={(item) => {
+            console.log(item);
+            setPathname(item.key)
           }}
-        />
-        <Menu defaultSelectedKeys={['1']} mode="inline" items={items} />
-      </Sider>
-      <div className={'w-full bg-[#fbfcfd] dark:bg-[#0c0d0e] min-h-[100vh]'}>
-        <div className={'w-[1150px]  mx-auto'}>
+          style={{
+            background: '#FAFAFA',
+          }}
+          selectedKeys={[
+            pathname
+          ]} mode="inline" items={items} />
+        <UserDropdown/>
+      </div>
+      <div className={'w-full bg-[#FFF] dark:bg-[#0c0d0e] min-h-[100vh]'}>
+        <div>
           {/*<Breadcrumb style={{ margin: '16px 0' }}>*/}
           {/*  <Breadcrumb.Item>User</Breadcrumb.Item>*/}
           {/*  <Breadcrumb.Item>Bill</Breadcrumb.Item>*/}
@@ -57,7 +75,7 @@ const App: React.FC<{
           <div>{children}</div>
         </div>
       </div>
-    </Layout>
+    </div>
   );
 };
 

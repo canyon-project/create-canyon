@@ -1,6 +1,6 @@
 const Logo = () => {
   return (
-    <div className={'px-3 py-[16px]'}>
+    <div className={'flex items-center p-[14px]'}>
       <div className={'flex items-center justify-between'}>
         <div
           className={'cursor-pointer flex items-center'}
