@@ -1,13 +1,14 @@
 "use client"
 
-import React, { useState } from "react"
-import { Avatar, Popover, Button, Radio, Select, Divider, Segmented } from "antd"
-import {CreditCardOutlined, SettingOutlined, LogoutOutlined, SunOutlined, MoonOutlined} from "@ant-design/icons"
+// import React, {useState} from "react"
+import {Avatar, Button, Divider, Popover, Segmented, Select} from "antd"
+import {LogoutOutlined, MoonOutlined, SettingOutlined, SunOutlined} from "@ant-design/icons"
 
 import languages from "../../../languages.json";
+import i18n from "@/i18n.ts";
 
 export default function UserPopover() {
-  const [theme, setTheme] = useState("system")
+  // const [theme, setTheme] = useState("system")
 
   const content = (
     <div className="w-[280px]">
@@ -65,8 +66,10 @@ export default function UserPopover() {
             ]}
             value={localStorage.getItem("theme") || "light"}
             onChange={(value) => {
-              localStorage.setItem("theme", value);
-              window.location.reload();
+              // localStorage.setItem("theme", value);
+              // window.location.reload();
+
+
             }}
           />
         </div>
@@ -76,8 +79,8 @@ export default function UserPopover() {
             size={'small'}
             value={localStorage.getItem("language") || "cn"}
             onChange={(value) => {
-              localStorage.setItem("language", value);
-              window.location.reload();
+              // 使用 changeLanguage 方法切换语言
+              i18n.changeLanguage(value)
             }}
             options={languages.map((item) => {
               return {

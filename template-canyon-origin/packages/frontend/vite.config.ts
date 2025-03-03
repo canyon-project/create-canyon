@@ -8,7 +8,9 @@ import * as path from 'path';
 export default defineConfig({
   plugins: [
     TanStackRouterVite({ autoCodeSplitting: true }),
-    react(),
+    react({
+      jsxImportSource: '@emotion/react',
+    }),
     tailwindcss(),
   ],
   resolve: {

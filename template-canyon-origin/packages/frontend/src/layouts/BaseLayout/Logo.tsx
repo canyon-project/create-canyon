@@ -20,8 +20,6 @@ const Logo = () => {
             {'Canyon'}
           </span>
         </div>
-
-        <div></div>
       </div>
     </div>
   );
