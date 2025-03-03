@@ -15,6 +15,10 @@ type GetProjectsResponseModel {
   total: Float!
 }
 
+type UpdateUserSettingsResponseModel {
+  theme: String!
+}
+
 type Query {
   """获取Project"""
   getProjects(
@@ -24,4 +28,11 @@ type Query {
     """每页数量"""
     pageSize: Int!
   ): GetProjectsResponseModel!
+}
+
+type Mutation {
+  updateUserSettings(
+    """主题"""
+    theme: String!
+  ): UpdateUserSettingsResponseModel!
 }

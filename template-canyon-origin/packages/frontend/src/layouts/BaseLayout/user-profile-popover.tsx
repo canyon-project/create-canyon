@@ -1,16 +1,23 @@
 "use client"
 
 // import React, {useState} from "react"
-import {Avatar, Button, Divider, Popover, Segmented, Select} from "antd"
+import {Avatar, Button, Divider, message, Popover, Segmented, Select} from "antd"
 import {LogoutOutlined, MoonOutlined, SettingOutlined, SunOutlined} from "@ant-design/icons"
 
 import languages from "../../../languages.json";
 import i18n from "@/i18n.ts";
+import {useMutation} from "@apollo/client";
+import {UpdateUserSettingsDocument} from "@/graphql/gen/graphql.ts";
 
 export default function UserPopover() {
 
 
   // console
+
+  const [
+    updateUserSettings,
+    { loading: updateUserSettingsLoading },
+  ] = useMutation(UpdateUserSettingsDocument)
 
 
   const content = (
@@ -71,6 +78,14 @@ export default function UserPopover() {
             onChange={(value) => {
               // localStorage.setItem("theme", value);
               // window.location.reload();
+
+              updateUserSettings({
+                variables:{
+                  theme:value
+                }
+              }).then(r=>{
+                message.success("Theme changed")
+              })
 
 
             }}
