@@ -18,7 +18,7 @@ export default function UserPopover() {
           <Avatar src="/placeholder.svg?height=40&width=40" size={40} />
           <div>
             <div className="font-medium">zhangtao25</div>
-            <div className="text-emerald-600 text-sm">Premium</div>
+            {/*<div className="text-emerald-600 text-sm">Premium</div>*/}
           </div>
         </div>
       </div>
@@ -27,15 +27,6 @@ export default function UserPopover() {
 
       {/* 菜单选项 */}
       <div className="">
-        <Button
-          style={{textAlign:'left'}}
-          type="text"
-          block
-          className=" !flex !items-center !justify-start"
-          icon={<CreditCardOutlined className="text-gray-500" />}
-        >
-          <span className="ml-2">Billing</span>
-        </Button>
         <Button
           type="text"
           block
@@ -102,19 +93,19 @@ export default function UserPopover() {
   )
 
   return (
-    <div className="fixed bottom-4 left-4">
+    <div className={''}>
       <Popover
         content={content}
         placement="topLeft"
         trigger="hover"
-        overlayClassName="user-popover"
       >
-        <div className="flex items-center gap-3 p-2 rounded-lg border border-gray-200 bg-white shadow-sm cursor-pointer hover:bg-gray-50">
+        <div className="flex items-center gap-3 p-2 m-1   cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg">
           <Avatar src="/placeholder.svg?height=32&width=32" size={32} />
-          <div>
-            <div className="font-medium">zhangtao25</div>
-            <div className="text-emerald-600 text-sm">Premium</div>
+          <div style={{flex:1}}>
+            <div className="text-[14px]">zhangtao25</div>
+            {/*<div className="text-emerald-600 text-sm">Premium</div>*/}
           </div>
+          <img src="/shangxia.svg" alt=""/>
         </div>
       </Popover>
     </div>

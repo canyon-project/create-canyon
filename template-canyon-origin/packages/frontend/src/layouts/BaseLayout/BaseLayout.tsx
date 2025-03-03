@@ -57,6 +57,7 @@ const App: React.FC<{
           width:'275px',
           background:'#FAFAFA'
         }}
+        className={'flex flex-col'}
       >
         <Logo />
         <Menu
@@ -66,6 +67,7 @@ const App: React.FC<{
           }}
           style={{
             background: '#FAFAFA',
+            flex:1
           }}
           selectedKeys={[
             pathname
