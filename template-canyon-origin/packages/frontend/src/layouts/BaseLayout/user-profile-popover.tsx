@@ -8,7 +8,10 @@ import languages from "../../../languages.json";
 import i18n from "@/i18n.ts";
 
 export default function UserPopover() {
-  // const [theme, setTheme] = useState("system")
+
+
+  // console
+
 
   const content = (
     <div className="w-[280px]">
