@@ -25,6 +25,7 @@ import {
   RobotOutlined,
 } from '@ant-design/icons';
 import type { TabsProps, TableProps } from 'antd';
+import CoverageDetail from "@/components/CoverageDetail.tsx";
 
 // 更新数据类型定义
 interface CaseData {
@@ -423,6 +424,8 @@ const PipelineCoverageDetails: React.FC = () => {
   const [searchValue, setSearchValue] = useState('');
   const [selectedType, setSelectedType] = useState('all');
 
+  const [coverageDetailOpen, setCoverageDetailOpen] = useState(false);
+
   // 根据搜索条件筛选流水线
   const filteredPipelines = useMemo(() => {
     return mockPipelines.filter((pipeline) => {
@@ -562,9 +565,17 @@ const PipelineCoverageDetails: React.FC = () => {
                     }}>#12345</a>
                   </div>
 
+
+                  <CoverageDetail open={coverageDetailOpen} onClose={()=>{
+                    setCoverageDetailOpen(false);
+                  }}/>
+
+
                   <div className="flex items-center space-x-2">
                     <Tooltip title="端到端测试覆盖率">
-                      <span className="font-medium">E2E覆盖率:</span>
+                      <span className="font-medium" onClick={()=>{
+                        setCoverageDetailOpen(true);
+                      }}>E2E覆盖率:</span>
                     </Tooltip>
                     <CoverageProgress
                       percentage={pipeline.coverage.e2eCoverage}
