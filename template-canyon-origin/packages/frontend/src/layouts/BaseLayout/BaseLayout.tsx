@@ -8,6 +8,7 @@ import {useTranslation} from 'react-i18next';
 import StructureLayout from "@/layouts/BaseLayout/StructureLayout.tsx";
 import {useQuery} from "@apollo/client";
 import {MeDocument} from "@/graphql/gen/graphql.ts";
+import useUserStore from "@/store/userStore.ts";
 
 type MenuItem = Required<MenuProps>['items'][number];
 
@@ -30,6 +31,7 @@ function getItem(
 const App: React.FC<{
   children?: React.ReactNode;
 }> = ({ children }) => {
+  const {user,setUser} = useUserStore()
   const loc = useLocation()
   const [pathname, setPathname] = React.useState(loc.pathname)
   const nav= useNavigate()
@@ -46,8 +48,15 @@ const App: React.FC<{
     getItem(t('menus.settings'), 'settings', <SettingOutlined />),
   ];
 
+  console.log(user?.id,'user?.id')
+
   const {data:meData,error} = useQuery(MeDocument,{
-    fetchPolicy:'no-cache'
+    fetchPolicy:'no-cache',
+    skip: Boolean(user?.id),
+    onCompleted:(data)=>{
+      setUser(data.me)
+      console.log('????')
+    }
   })
 
   const notNeedStructureLayoutList = ['/login']
@@ -59,19 +68,29 @@ const App: React.FC<{
       })
       setPathname('/login')
     }
+    console.log(meData,'meDatameDatameDatameData')
   }, [meData,error]);
 
+  const [show,setShow] = React.useState(null)
+
+  useEffect(() => {
+    if (meData){
+      setShow(meData.me)
+    }
+  }, [meData]);
+
+
   return (<div>
-      {(meData&&!notNeedStructureLayoutList.includes(pathname)&&<StructureLayout
+      {(show&&!notNeedStructureLayoutList.includes(pathname)&&<StructureLayout
           sidebar={
             <>
               <Logo />
               <Menu
+                className={'bg-[#FAFAFA]'}
                 onSelect={(item) => {
                   setPathname(item.key)
                 }}
                 style={{
-                  background: '#FAFAFA',
                   flex:1
                 }}
                 selectedKeys={[
@@ -81,6 +100,7 @@ const App: React.FC<{
             </>
           }
         >
+        {user?.id}
           {children}
         </StructureLayout>)
       }

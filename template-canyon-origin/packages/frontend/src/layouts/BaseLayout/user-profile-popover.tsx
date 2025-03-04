@@ -10,11 +10,11 @@ import {useMutation} from "@apollo/client";
 import {UpdateUserSettingsDocument} from "@/graphql/gen/graphql.ts";
 import useUserStore from "@/store/userStore.ts";
 
+
 export default function UserPopover() {
+  const {setUserSettings,userSettings,user} = useUserStore()
 
-  // const useApp = App.useApp();
-
-  const {setUserSettings,userSettings} = useUserStore()
+  const {username,email,nickname} = user
 
   const [messageApi, contextHolder] = message.useMessage();
   const [
@@ -27,11 +27,13 @@ export default function UserPopover() {
       {contextHolder}
       {/* 用户信息 */}
       <div className="">
-        <div className="text-gray-500 text-sm mb-2">wr_zhang25@163.com</div>
+        <div className="text-gray-500 text-sm mb-2">{email}</div>
         <div className="flex items-center gap-3">
           <Avatar src="/placeholder.svg?height=40&width=40" size={40} />
           <div>
-            <div className="font-medium">zhangtao25</div>
+            <div className="font-medium">
+              {username}
+            </div>
             {/*<div className="text-emerald-600 text-sm">Premium</div>*/}
           </div>
         </div>
@@ -151,8 +153,7 @@ export default function UserPopover() {
         <div className="flex items-center gap-3 p-2 m-1   cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg">
           <Avatar src="/placeholder.svg?height=32&width=32" size={32} />
           <div style={{flex:1}}>
-            <div className="text-[14px]">zhangtao25</div>
-            {/*<div className="text-emerald-600 text-sm">Premium</div>*/}
+            <div className="text-[14px]">{username}</div>
           </div>
           <img src="/shangxia.svg" alt=""/>
         </div>

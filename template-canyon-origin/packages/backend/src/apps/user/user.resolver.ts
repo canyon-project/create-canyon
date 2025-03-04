@@ -29,12 +29,12 @@ export class UserResolver {
     return this.userService.convertDbUserToUser(user);
   }
 
-  // @UseGuards(GqlAuthGuard)
+  @UseGuards(GqlAuthGuard)
   @Mutation(() => UpdateUserSettingsResponseModel)
   async updateUserSettings(
     @Args() args: UpdateUserSettingsRequestModel,
-    // @GqlUser() user: User
+    @GqlUser() user: UserModel
   ): Promise<UpdateUserSettingsResponseModel> {
-    return await this.updateUserSettingsService.invoke('1',args);
+    return await this.updateUserSettingsService.invoke(user.id,args);
   }
 }

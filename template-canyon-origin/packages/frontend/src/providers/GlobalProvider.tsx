@@ -7,6 +7,7 @@ import {App, ConfigProvider, message, theme} from 'antd';
 import { FC, useEffect, useState } from 'react';
 import useUserStore from "@/store/userStore.ts";
 import {useLocation} from "@tanstack/react-router";
+import {ThemeProvider} from "@emotion/react";
 const languages = {
   cn: zhCN,
   en: enUS,
@@ -14,6 +15,26 @@ const languages = {
 };
 
 const { darkAlgorithm } = theme;
+
+// 1. 定义主题接口
+interface Theme {
+  colors: {
+    primary: string;
+    background: string;
+    sidebarBg: string;
+    borderColor: string;
+  };
+}
+
+const darkTheme: Theme = {
+  colors: {
+    primary: "#40a9ff",
+    background: "#111",
+    sidebarBg: "#222",
+    borderColor: "#333",
+  },
+};
+
 
 
 // 创建一个http link来发送GraphQL请求
@@ -89,17 +110,20 @@ const GlobalProvider: FC<{
     <>
       <ApolloProvider client={client}>
         {contextHolder}
-        <ConfigProvider
-          locale={languages[userSettings.language]}
-          theme={{
-            token: {
-              colorPrimary: '#0071c2',
-            },
-            algorithm: userSettings.theme === 'dark' ? [darkAlgorithm] : [],
-          }}
-        >
-          {children}
-        </ConfigProvider>
+        <ThemeProvider theme={darkTheme}>
+          <ConfigProvider
+            locale={languages[userSettings.language]}
+            theme={{
+              token: {
+                colorPrimary: '#0071c2',
+              },
+              algorithm: userSettings.theme === 'dark' ? [darkAlgorithm] : [],
+            }}
+          >
+            {children}
+          </ConfigProvider>
+        </ThemeProvider>
+
       </ApolloProvider>
     </>
   );
