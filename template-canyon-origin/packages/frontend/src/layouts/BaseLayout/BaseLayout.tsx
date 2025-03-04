@@ -6,6 +6,8 @@ import UserDropdown from "@/layouts/BaseLayout/user-profile-popover.tsx";
 import {useLocation, useNavigate} from "@tanstack/react-router";
 import {useTranslation} from 'react-i18next';
 import StructureLayout from "@/layouts/BaseLayout/StructureLayout.tsx";
+import {useQuery} from "@apollo/client";
+import {MeDocument} from "@/graphql/gen/graphql.ts";
 
 type MenuItem = Required<MenuProps>['items'][number];
 
@@ -46,30 +48,36 @@ const App: React.FC<{
     getItem(t('menus.settings'), 'settings', <SettingOutlined />),
   ];
 
-  // const {}
+  const {data:meData} = useQuery(MeDocument)
 
-  return (
-      <StructureLayout
-        sidebar={
-          <>
-            <Logo />
-            <Menu
-              onSelect={(item) => {
-                setPathname(item.key)
-              }}
-              style={{
-                background: '#FAFAFA',
-                flex:1
-              }}
-              selectedKeys={[
-                pathname
-              ]} mode="inline" items={items} />
-            <UserDropdown/>
-          </>
-        }
-      >
-        {children}
-      </StructureLayout>
+  const notNeedStructureLayoutList = ['/login']
+
+  return (<div>
+
+      {(meData&&notNeedStructureLayoutList&&<StructureLayout
+          sidebar={
+            <>
+              <Logo />
+              <Menu
+                onSelect={(item) => {
+                  setPathname(item.key)
+                }}
+                style={{
+                  background: '#FAFAFA',
+                  flex:1
+                }}
+                selectedKeys={[
+                  pathname
+                ]} mode="inline" items={items} />
+              <UserDropdown/>
+            </>
+          }
+        >
+          {children}
+        </StructureLayout>)
+      }
+      {notNeedStructureLayoutList&&children}
+    </div>
   );
 };
 
