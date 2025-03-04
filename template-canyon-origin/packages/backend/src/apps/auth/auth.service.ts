@@ -13,7 +13,7 @@ export class AuthService {
     return (
       (await this.prisma.user.findFirst({
         where: {
-          email: username,
+          username: username,
           password,
         },
       })) || null
@@ -34,7 +34,7 @@ export class AuthService {
   async passwordLogin(params) {
     const isHasUser = await this.prisma.user.findFirst({
       where: {
-        email: params.username,
+        username: params.username,
         password: params.password,
       },
     });
@@ -42,7 +42,7 @@ export class AuthService {
       throw new UnauthorizedException();
     }
     return this.login({
-      username: isHasUser.email,
+      username: isHasUser.username,
       id: isHasUser.id,
     });
   }

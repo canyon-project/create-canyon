@@ -1,7 +1,9 @@
+import { ApolloClient, ApolloProvider, ApolloLink, createHttpLink, InMemoryCache } from '@apollo/client';
+// import { message } from 'antd'; // 引入 Ant Design 的 message 组件
 import enUS from 'antd/es/locale/en_US';
 import jaJP from 'antd/es/locale/ja_JP';
 import zhCN from 'antd/es/locale/zh_CN';
-import { ConfigProvider, theme } from 'antd';
+import {App, ConfigProvider, message, theme} from 'antd';
 import { FC, useEffect, useState } from 'react';
 import useUserStore from "@/store/userStore.ts";
 const languages = {
@@ -12,11 +14,50 @@ const languages = {
 
 const { darkAlgorithm } = theme;
 
+
+// 创建一个http link来发送GraphQL请求
+const httpLink = createHttpLink({
+  uri: '/graphql', // 你的GraphQL API的URL
+  headers: {
+    Authorization: `Bearer ` + (localStorage.getItem('token') || ''),
+  },
+});
+
+
 const GlobalProvider: FC<{
   children?: React.ReactNode;
 }> = ({ children }) => {
+  const [messageApi, contextHolder] = message.useMessage();
+  // 创建一个错误拦截器
+  const errorLink = ApolloLink.from([
+    new ApolloLink((operation, forward) => {
+      return forward(operation).map((response) => {
+        const { errors } = response;
+        console.log(response)
+        if (errors && errors.length > 0) {
+          errors.forEach((error) => {
+            messageApi.error(error.message); // 使用 Ant Design 的 message 组件显示错误信息
+            console.log(error.message); // 控制台打印错误信息
+          });
+        }
+        return response;
+      });
+    }),
+  ]);
+
+// 将错误拦截器和 httpLink 组合起来
+  const link = errorLink.concat(httpLink);
+
+// 创建Apollo Client实例
+  const client = new ApolloClient({
+    link: link, // 将error link和http link组合起来
+    cache: new InMemoryCache(),
+  });
+
+
 
   const {userSettings} = useUserStore();
+
 
   useEffect(() => {
     setTimeout(() => {
@@ -38,7 +79,8 @@ const GlobalProvider: FC<{
   }, [userSettings]);
   return (
     <>
-      {userSettings && (
+      <ApolloProvider client={client}>
+        {contextHolder}
         <ConfigProvider
           locale={languages[userSettings.language]}
           theme={{
@@ -50,7 +92,7 @@ const GlobalProvider: FC<{
         >
           {children}
         </ConfigProvider>
-      )}
+      </ApolloProvider>
     </>
   );
 };

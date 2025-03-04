@@ -36,8 +36,6 @@ const App: React.FC<{
   useEffect(()=>{
     nav({
       to:`/${pathname}`
-    }).then(r=>{
-      console.log(r)
     })
   },[pathname])
 
@@ -51,6 +49,15 @@ const App: React.FC<{
   const {data:meData} = useQuery(MeDocument)
 
   const notNeedStructureLayoutList = ['/login']
+
+  useEffect(() => {
+    if (!notNeedStructureLayoutList.includes(pathname) && !meData) {
+      nav({
+        to: '/login'
+      })
+      setPathname('/login')
+    }
+  }, [meData]);
 
   return (<div>
       {(meData&&!notNeedStructureLayoutList.includes(pathname)&&<StructureLayout
