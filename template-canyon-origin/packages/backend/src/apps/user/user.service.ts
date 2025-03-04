@@ -23,6 +23,7 @@ export class UserService {
         return {
           id: res.id,
           password: res.password,
+          username: res.username,
           nickname: res.nickname,
           avatar: res.avatar,
           email: res.email,

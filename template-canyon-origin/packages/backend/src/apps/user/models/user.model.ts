@@ -16,8 +16,8 @@ export class UserModel {
   @Field(() => ID)
   id: string;
 
-  // @Field()
-  // username: string;
+  @Field()
+  username: string;
 
   @Field()
   password: string;

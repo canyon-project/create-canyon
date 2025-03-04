@@ -26,6 +26,7 @@ type UserSettingsModel {
 
 type UserModel {
   id: ID!
+  username: String!
   password: String!
   nickname: String!
   avatar: String!
