@@ -53,8 +53,7 @@ const App: React.FC<{
   const notNeedStructureLayoutList = ['/login']
 
   return (<div>
-
-      {(meData&&notNeedStructureLayoutList&&<StructureLayout
+      {(meData&&!notNeedStructureLayoutList.includes(pathname)&&<StructureLayout
           sidebar={
             <>
               <Logo />
@@ -76,7 +75,7 @@ const App: React.FC<{
           {children}
         </StructureLayout>)
       }
-      {notNeedStructureLayoutList&&children}
+      {notNeedStructureLayoutList.includes(pathname)&&children}
     </div>
   );
 };
