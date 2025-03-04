@@ -46,18 +46,20 @@ const App: React.FC<{
     getItem(t('menus.settings'), 'settings', <SettingOutlined />),
   ];
 
-  const {data:meData} = useQuery(MeDocument)
+  const {data:meData,error} = useQuery(MeDocument,{
+    fetchPolicy:'no-cache'
+  })
 
   const notNeedStructureLayoutList = ['/login']
 
   useEffect(() => {
-    if (!notNeedStructureLayoutList.includes(pathname) && !meData) {
+    if (!notNeedStructureLayoutList.includes(pathname) && error) {
       nav({
         to: '/login'
       })
       setPathname('/login')
     }
-  }, [meData]);
+  }, [meData,error]);
 
   return (<div>
       {(meData&&!notNeedStructureLayoutList.includes(pathname)&&<StructureLayout

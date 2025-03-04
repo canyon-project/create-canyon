@@ -6,6 +6,7 @@ import zhCN from 'antd/es/locale/zh_CN';
 import {App, ConfigProvider, message, theme} from 'antd';
 import { FC, useEffect, useState } from 'react';
 import useUserStore from "@/store/userStore.ts";
+import {useLocation} from "@tanstack/react-router";
 const languages = {
   cn: zhCN,
   en: enUS,
@@ -27,6 +28,7 @@ const httpLink = createHttpLink({
 const GlobalProvider: FC<{
   children?: React.ReactNode;
 }> = ({ children }) => {
+  const loc = useLocation()
   const [messageApi, contextHolder] = message.useMessage();
   // 创建一个错误拦截器
   const errorLink = ApolloLink.from([
@@ -36,8 +38,14 @@ const GlobalProvider: FC<{
         console.log(response)
         if (errors && errors.length > 0) {
           errors.forEach((error) => {
-            messageApi.error(error.message); // 使用 Ant Design 的 message 组件显示错误信息
-            console.log(error.message); // 控制台打印错误信息
+
+            setTimeout(()=>{
+              if (!window.location.pathname.includes('/login')){
+                messageApi.error(error.message); // 使用 Ant Design 的 message 组件显示错误信息
+                console.log(error.message,loc.pathname); // 控制台打印错误信息
+              }
+            },100)
+
           });
         }
         return response;

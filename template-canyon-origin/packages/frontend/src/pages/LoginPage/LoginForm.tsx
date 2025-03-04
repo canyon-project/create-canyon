@@ -37,9 +37,9 @@ export default function LoginForm() {
         // alert("Login successful!")
         localStorage.setItem("token", data.token)
 
-        nav({
-          to: '/'
-        })
+
+        window.location.href = "/";
+
 
       } else {
         console.error("Login failed:", data)
