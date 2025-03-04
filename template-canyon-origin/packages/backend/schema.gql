@@ -19,6 +19,27 @@ type UpdateUserSettingsResponseModel {
   theme: String!
 }
 
+type UserSettingsModel {
+  theme: String!
+  language: String!
+}
+
+type UserModel {
+  id: ID!
+  password: String!
+  nickname: String!
+  avatar: String!
+  email: String!
+  favor: String!
+  createdAt: DateTime!
+  settings: UserSettingsModel!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
 type Query {
   """获取Project"""
   getProjects(
@@ -28,6 +49,9 @@ type Query {
     """每页数量"""
     pageSize: Int!
   ): GetProjectsResponseModel!
+
+  """提供执行此查询的用户的详细信息（通过授权 Bearer 标头）"""
+  me: UserModel!
 }
 
 type Mutation {

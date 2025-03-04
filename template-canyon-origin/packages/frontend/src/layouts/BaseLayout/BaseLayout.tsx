@@ -46,6 +46,8 @@ const App: React.FC<{
     getItem(t('menus.settings'), 'settings', <SettingOutlined />),
   ];
 
+  // const {}
+
   return (
       <StructureLayout
         sidebar={

@@ -1,7 +1,18 @@
 import { Field, ID, ObjectType } from "@nestjs/graphql";
 
+// UserSettingsModel
+
 @ObjectType()
-export class User {
+export class UserSettingsModel {
+  @Field()
+  theme: string;
+
+  @Field()
+  language: string;
+}
+
+@ObjectType()
+export class UserModel {
   @Field(() => ID)
   id: string;
 
@@ -31,4 +42,7 @@ export class User {
 
   @Field()
   createdAt: Date;
+
+  @Field()
+  settings: UserSettingsModel;
 }
