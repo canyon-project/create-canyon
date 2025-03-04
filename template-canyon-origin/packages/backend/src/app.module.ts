@@ -9,13 +9,15 @@ import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin/landingPage/default';
 import { UserModule } from './apps/user/user.module';
+import {AuthModule} from "./apps/auth/auth.module";
 
 @Module({
   imports: [
     PrismaModule,
     // apps
-    ProjectModule,
     UserModule,
+    AuthModule,
+    ProjectModule,
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, '../../platform', 'dist'),
       exclude: ['/graphql'], // 这样就不会触发 path-to-regexp 解析错误
