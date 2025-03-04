@@ -1,4 +1,4 @@
-import { create } from "zustand";
+import { create } from 'zustand';
 
 // 定义用户设置的类型
 interface UserSettings {
@@ -17,10 +17,10 @@ interface User {
 }
 
 const defaultUserSettings: UserSettings = {
-  theme: "light",
-  language: "cn",
-  defaultDimension: "2d",
-}
+  theme: 'dark',
+  language: 'cn',
+  defaultDimension: '2d',
+};
 
 // 创建一个用户信息和设置的状态管理 store
 const useUserStore = create<{

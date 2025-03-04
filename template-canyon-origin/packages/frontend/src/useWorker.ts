@@ -1,13 +1,13 @@
-import { loader } from "@monaco-editor/react";
+import { loader } from '@monaco-editor/react';
 
-const UNPKG_URL = "https://unpkg.com";
+const UNPKG_URL = 'https://unpkg.com';
 
 loader.config({
   paths: { vs: `${UNPKG_URL}/monaco-editor@0.52.2/min/vs` },
 });
 
 loader.init().then((monaco) => {
-  import("monaco-themes/themes/Night Owl.json").then((data: any) => {
-    monaco.editor.defineTheme("nightOwl", data);
+  import('monaco-themes/themes/Night Owl.json').then((data: any) => {
+    monaco.editor.defineTheme('nightOwl', data);
   });
 });

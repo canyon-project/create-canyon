@@ -9,7 +9,7 @@ export const Route = createFileRoute('/login')({
 function Login() {
   return (
     <div>
-      <LoginPage/>
+      <LoginPage />
     </div>
   );
 }

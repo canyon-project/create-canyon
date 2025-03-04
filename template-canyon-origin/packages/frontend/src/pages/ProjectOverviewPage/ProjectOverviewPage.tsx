@@ -1,15 +1,22 @@
 // import { useQuery } from '@apollo/client';
 // import { GetProjectsDocument } from '@/graphql/gen/graphql.ts';
-import {Breadcrumb, Button, Space, Tabs} from 'antd';
+import { Breadcrumb, Button, Space, Tabs } from 'antd';
 import CommitsTab from './CommitsTab';
-import {SettingOutlined} from "@ant-design/icons";
+import { SettingOutlined } from '@ant-design/icons';
 
 // 核心代码
 
 const ProjectOverviewPage = () => {
   return (
     <div>
-      <div className={'border-b border-gray-200  h-[48px] flex items-center justify-between px-[16px]'}>
+      <div
+        style={{
+          borderColor:'#666'
+        }}
+        className={
+          'border-b border-gray-200  h-[48px] flex items-center justify-between px-[16px]'
+        }
+      >
         <Breadcrumb
           items={[
             {
@@ -23,8 +30,10 @@ const ProjectOverviewPage = () => {
         />
 
         <Space>
-          <SettingOutlined/>
-          <Button type={'primary'} size={'small'}>New Project</Button>
+          <SettingOutlined />
+          <Button type={'primary'} size={'small'}>
+            New Project
+          </Button>
         </Space>
       </div>
       <Tabs

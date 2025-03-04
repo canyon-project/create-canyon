@@ -6,7 +6,8 @@
   "scripts": {
     "build": "pnpm -r do-build",
     "clean": "node ./scripts/clean.mjs",
-    "preinstall": "node ./scripts/check.mjs"
+    "preinstall": "node ./scripts/check.mjs",
+    "migrate": "prisma migrate dev --schema ./packages/backend/prisma/schema.prisma"
   },
   "pnpm": {
     "overrides": {
@@ -23,6 +24,10 @@
       "@types/react": "^18",
       "@types/react-dom": "^18"
     }
+  },
+  "devDependencies": {
+    "@prisma/client": "^6.4.1",
+    "prisma": "^6.4.1"
   },
   "pacakgeManager": {
     "packageManager": "pnpm@9"

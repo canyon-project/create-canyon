@@ -1,14 +1,14 @@
-import React, {useEffect} from 'react';
-import {FolderOutlined, SettingOutlined} from '@ant-design/icons';
-import {Menu, MenuProps} from 'antd';
+import React, { useEffect } from 'react';
+import { FolderOutlined, SettingOutlined } from '@ant-design/icons';
+import { Menu, MenuProps } from 'antd';
 import Logo from '@/layouts/BaseLayout/Logo.tsx';
-import UserDropdown from "@/layouts/BaseLayout/user-profile-popover.tsx";
-import {useLocation, useNavigate} from "@tanstack/react-router";
-import {useTranslation} from 'react-i18next';
-import StructureLayout from "@/layouts/BaseLayout/StructureLayout.tsx";
-import {useQuery} from "@apollo/client";
-import {MeDocument} from "@/graphql/gen/graphql.ts";
-import useUserStore from "@/store/userStore.ts";
+import UserDropdown from '@/layouts/BaseLayout/user-profile-popover.tsx';
+import { useLocation, useNavigate } from '@tanstack/react-router';
+import { useTranslation } from 'react-i18next';
+import StructureLayout from '@/layouts/BaseLayout/StructureLayout.tsx';
+import { useQuery } from '@apollo/client';
+import { MeDocument } from '@/graphql/gen/graphql.ts';
+import useUserStore from '@/store/userStore.ts';
 
 type MenuItem = Required<MenuProps>['items'][number];
 
@@ -26,85 +26,84 @@ function getItem(
   } as MenuItem;
 }
 
-
-
 const App: React.FC<{
   children?: React.ReactNode;
 }> = ({ children }) => {
-  const {user,setUser} = useUserStore()
-  const loc = useLocation()
-  const [pathname, setPathname] = React.useState(loc.pathname)
-  const nav= useNavigate()
-  useEffect(()=>{
+  const { user, setUser } = useUserStore();
+  const loc = useLocation();
+  const [pathname, setPathname] = React.useState(loc.pathname);
+  const nav = useNavigate();
+  useEffect(() => {
     nav({
-      to:`/${pathname}`
-    })
-  },[pathname])
+      to: `/${pathname}`,
+    });
+  }, [pathname]);
 
-  const {t} = useTranslation()
+  const { t } = useTranslation();
 
   const items: MenuItem[] = [
     getItem(t('menus.projects'), '', <FolderOutlined />),
     getItem(t('menus.settings'), 'settings', <SettingOutlined />),
   ];
 
-  console.log(user?.id,'user?.id')
+  console.log(user?.id, 'user?.id');
 
-  const {data:meData,error} = useQuery(MeDocument,{
-    fetchPolicy:'no-cache',
+  const { data: meData, error } = useQuery(MeDocument, {
+    fetchPolicy: 'no-cache',
     skip: Boolean(user?.id),
-    onCompleted:(data)=>{
-      setUser(data.me)
-      console.log('????')
-    }
-  })
+    onCompleted: (data) => {
+      setUser(data.me);
+      console.log('????');
+    },
+  });
 
-  const notNeedStructureLayoutList = ['/login']
+  const notNeedStructureLayoutList = ['/login'];
 
   useEffect(() => {
     if (!notNeedStructureLayoutList.includes(pathname) && error) {
       nav({
-        to: '/login'
-      })
-      setPathname('/login')
+        to: '/login',
+      });
+      setPathname('/login');
     }
-    console.log(meData,'meDatameDatameDatameData')
-  }, [meData,error]);
+    console.log(meData, 'meDatameDatameDatameData');
+  }, [meData, error]);
 
-  const [show,setShow] = React.useState(null)
+  const [show, setShow] = React.useState(null);
 
   useEffect(() => {
-    if (meData){
-      setShow(meData.me)
+    if (meData) {
+      setShow(meData.me);
     }
   }, [meData]);
 
-
-  return (<div>
-      {(show&&!notNeedStructureLayoutList.includes(pathname)&&<StructureLayout
+  return (
+    <div>
+      {show && !notNeedStructureLayoutList.includes(pathname) && (
+        <StructureLayout
           sidebar={
             <>
               <Logo />
               <Menu
                 className={'bg-[#FAFAFA]'}
                 onSelect={(item) => {
-                  setPathname(item.key)
+                  setPathname(item.key);
                 }}
                 style={{
-                  flex:1
+                  flex: 1,
                 }}
-                selectedKeys={[
-                  pathname
-                ]} mode="inline" items={items} />
-              <UserDropdown/>
+                selectedKeys={[pathname]}
+                mode="inline"
+                items={items}
+              />
+              <UserDropdown />
             </>
           }
         >
-        {user?.id}
           {children}
-        </StructureLayout>)
-      }
-      {notNeedStructureLayoutList.includes(pathname)&&children}
+        </StructureLayout>
+      )}
+      {notNeedStructureLayoutList.includes(pathname) && children}
     </div>
   );
 };

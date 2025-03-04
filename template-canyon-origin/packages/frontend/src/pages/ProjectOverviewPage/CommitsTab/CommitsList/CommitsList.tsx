@@ -85,7 +85,7 @@ const CommitsList = ({
   };
 
   return (
-    <div className="flex h-full flex-col shadow bg-white">
+    <div className="flex h-full flex-col shadow bg-black">
       <div className="space-y-1 px-2 pt-2">
         <Input
           placeholder="Search commits"

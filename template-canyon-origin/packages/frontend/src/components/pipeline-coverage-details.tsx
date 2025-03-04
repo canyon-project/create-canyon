@@ -25,7 +25,7 @@ import {
   RobotOutlined,
 } from '@ant-design/icons';
 import type { TabsProps, TableProps } from 'antd';
-import CoverageDetail from "@/components/CoverageDetail.tsx";
+import CoverageDetail from '@/components/CoverageDetail.tsx';
 
 // 更新数据类型定义
 interface CaseData {
@@ -555,27 +555,36 @@ const PipelineCoverageDetails: React.FC = () => {
               {/*<Divider/>*/}
               <div className="flex items-center justify-between mb-4  p-4 rounded-lg">
                 <div className="flex items-center space-x-6">
-
                   <div className="flex items-center space-x-2">
                     <Tooltip title="端到端测试覆盖率">
                       <span className="font-medium">流水线:</span>
                     </Tooltip>
-                    <a style={{
-                      textDecoration: 'underline',
-                    }}>#12345</a>
+                    <a
+                      style={{
+                        textDecoration: 'underline',
+                      }}
+                    >
+                      #12345
+                    </a>
                   </div>
 
-
-                  <CoverageDetail open={coverageDetailOpen} onClose={()=>{
-                    setCoverageDetailOpen(false);
-                  }}/>
-
+                  <CoverageDetail
+                    open={coverageDetailOpen}
+                    onClose={() => {
+                      setCoverageDetailOpen(false);
+                    }}
+                  />
 
                   <div className="flex items-center space-x-2">
                     <Tooltip title="端到端测试覆盖率">
-                      <span className="font-medium" onClick={()=>{
-                        setCoverageDetailOpen(true);
-                      }}>E2E覆盖率:</span>
+                      <span
+                        className="font-medium"
+                        onClick={() => {
+                          setCoverageDetailOpen(true);
+                        }}
+                      >
+                        E2E覆盖率:
+                      </span>
                     </Tooltip>
                     <CoverageProgress
                       percentage={pipeline.coverage.e2eCoverage}
@@ -690,7 +699,7 @@ const PipelineCoverageDetails: React.FC = () => {
   );
 
   return (
-    <div className="  bg-white shadow w-full">
+    <div className="  bg-black shadow w-full">
       <div className="mb-4">
         {/* 添加 commit 信息显示 */}
         <div className=" p-3  text-sm">

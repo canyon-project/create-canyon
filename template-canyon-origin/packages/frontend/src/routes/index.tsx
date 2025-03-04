@@ -1,5 +1,5 @@
 import { createFileRoute } from '@tanstack/react-router';
-import ProjectOverviewPage from "@/pages/ProjectOverviewPage";
+import ProjectOverviewPage from '@/pages/ProjectOverviewPage';
 
 export const Route = createFileRoute('/')({
   component: Index,
@@ -8,7 +8,7 @@ export const Route = createFileRoute('/')({
 function Index() {
   return (
     <div>
-      <ProjectOverviewPage/>
+      <ProjectOverviewPage />
     </div>
   );
 }
