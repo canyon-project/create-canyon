@@ -1,27 +1,30 @@
 "use client"
 
 // import React, {useState} from "react"
-import {Avatar, Button, Divider, message, Popover, Segmented, Select} from "antd"
+import { Avatar, Button, Divider, message, Popover, Segmented, Select} from "antd"
 import {LogoutOutlined, MoonOutlined, SettingOutlined, SunOutlined} from "@ant-design/icons"
 
 import languages from "../../../languages.json";
 import i18n from "@/i18n.ts";
 import {useMutation} from "@apollo/client";
 import {UpdateUserSettingsDocument} from "@/graphql/gen/graphql.ts";
+import useUserStore from "@/store/userStore.ts";
 
 export default function UserPopover() {
 
+  // const useApp = App.useApp();
 
-  // console
+  const {setUserSettings,userSettings} = useUserStore()
 
+  const [messageApi, contextHolder] = message.useMessage();
   const [
     updateUserSettings,
-    { loading: updateUserSettingsLoading },
   ] = useMutation(UpdateUserSettingsDocument)
 
 
   const content = (
     <div className="w-[280px]">
+      {contextHolder}
       {/* 用户信息 */}
       <div className="">
         <div className="text-gray-500 text-sm mb-2">wr_zhang25@163.com</div>
@@ -74,7 +77,7 @@ export default function UserPopover() {
               { value: 'light', icon: <SunOutlined /> },
               { value: 'dark', icon: <MoonOutlined /> },
             ]}
-            value={localStorage.getItem("theme") || "light"}
+            value={userSettings?.theme}
             onChange={(value) => {
               // localStorage.setItem("theme", value);
               // window.location.reload();
@@ -84,7 +87,15 @@ export default function UserPopover() {
                   theme:value
                 }
               }).then(r=>{
-                message.success("Theme changed")
+                // console.log('message','message',useApp)
+                messageApi.success("Theme changed")
+
+                setUserSettings({
+                  theme:value,
+                  language:userSettings?.language,
+                  defaultDimension:'2d'
+                })
+
               })
 
 
@@ -95,10 +106,27 @@ export default function UserPopover() {
           <span>Language</span>
           <Select
             size={'small'}
-            value={localStorage.getItem("language") || "cn"}
+            value={userSettings?.language}
             onChange={(value) => {
               // 使用 changeLanguage 方法切换语言
               i18n.changeLanguage(value)
+
+              updateUserSettings({
+                variables: {
+                  theme: userSettings?.theme,
+                  language: value,
+                  defaultDimension: '2d'
+                }
+              }).then(r=>{
+                messageApi.success("Language changed")
+
+                setUserSettings({
+                  theme: userSettings?.theme,
+                  language: value,
+                  defaultDimension: '2d'
+                })
+              })
+
             }}
             options={languages.map((item) => {
               return {
