@@ -80,7 +80,7 @@ export default function UserPopover() {
             size={'small'}
             shape="round"
             options={[
-              { value: 'sys', icon: <img src={'/svgexport.svg'} /> },
+              { value: 'auto', icon: <img src={'/svgexport.svg'} /> },
               { value: 'light', icon: <SunOutlined /> },
               { value: 'dark', icon: <MoonOutlined /> },
             ]}

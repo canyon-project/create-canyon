@@ -10,7 +10,7 @@ import enUS from 'antd/es/locale/en_US';
 import jaJP from 'antd/es/locale/ja_JP';
 import zhCN from 'antd/es/locale/zh_CN';
 import { App, ConfigProvider, message, theme } from 'antd';
-import { FC, useEffect, useState } from 'react';
+import {FC, useEffect, useMemo, useState} from 'react';
 import useUserStore from '@/store/userStore.ts';
 import { useLocation } from '@tanstack/react-router';
 import { ThemeProvider } from '@emotion/react';
@@ -73,24 +73,33 @@ const GlobalProvider: FC<{
 
   const { userSettings } = useUserStore();
 
+  const jisuanTheme = useMemo(()=>{
+    let themeValue = userSettings?.theme;
+    // 处理主题设置为 auto 的情况
+    if (themeValue === 'auto') {
+      themeValue = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    }
+    return themeValue
+  },[userSettings])
+
   useEffect(() => {
     setTimeout(() => {
-      console.log(userSettings, 'userSettings');
 
-      // 打印浏览器默认语言
 
-      // console.log(navigator.language);
+      let themeValue = userSettings?.theme;
+      // 处理主题设置为 auto 的情况
+      if (themeValue === 'auto') {
+        themeValue = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      }
 
-      // 打印浏览器默认主题色
-      // console.log(window.matchMedia('(prefers-color-scheme: dark)').matches);
-
-      // setData({ theme: localStorage.getItem('theme'), language: localStorage.getItem('language') });
-
-      // On page load or when changing themes, best to add inline in `head` to avoid FOUC
+      // 设置主题
+      console.log(themeValue,'themeValue')
       document.documentElement.classList.toggle(
         'dark',
-        userSettings?.theme === 'dark',
+        themeValue === 'dark',
       );
+
+
       i18n.changeLanguage(userSettings?.language);
     }, 100);
   }, [userSettings]);
@@ -105,7 +114,7 @@ const GlobalProvider: FC<{
             token: {
               colorPrimary: '#0071c2',
             },
-            algorithm: userSettings.theme === 'dark' ? [darkAlgorithm] : [],
+            algorithm: jisuanTheme === 'dark' ? [darkAlgorithm] : [],
           }}
         >
           {children}

@@ -57,6 +57,13 @@ const App: React.FC<{
         username: data.me?.username,
         email: data.me?.email,
       });
+
+      // let themeValue = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      //
+      // if (data.me?.settings.theme !== 'auto') {
+      //   themeValue = data.me?.settings.theme;
+      // }
+
       setUserSettings({
         theme:data.me?.settings.theme,
         language:data.me?.settings.language
