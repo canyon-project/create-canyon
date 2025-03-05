@@ -4,6 +4,13 @@ import {ArgsType, Field, Int} from "@nestjs/graphql";
 export class UpdateUserSettingsRequestModel {
   @Field(() => String, {
     description: "主题",
+    nullable: true,
   })
-  theme: string;
+  theme?: string;
+
+  @Field(() => String, {
+    description: "语言",
+    nullable: true,
+  })
+  language?: string;
 }

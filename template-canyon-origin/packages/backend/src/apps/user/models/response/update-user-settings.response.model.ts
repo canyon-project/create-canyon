@@ -6,4 +6,6 @@ import { Field, ObjectType } from "@nestjs/graphql";
 export class UpdateUserSettingsResponseModel {
   @Field(() => String)
   theme: string;
+  @Field(() => String)
+  language: string;
 }

@@ -117,9 +117,7 @@ export default function UserPopover() {
 
               updateUserSettings({
                 variables: {
-                  theme: userSettings?.theme,
                   language: value,
-                  defaultDimension: '2d',
                 },
               }).then((r) => {
                 messageApi.success('Language changed');

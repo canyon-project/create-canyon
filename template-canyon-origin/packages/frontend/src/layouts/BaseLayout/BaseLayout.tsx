@@ -29,7 +29,7 @@ function getItem(
 const App: React.FC<{
   children?: React.ReactNode;
 }> = ({ children }) => {
-  const { user, setUser } = useUserStore();
+  const { user, setUser,setUserSettings } = useUserStore();
   const loc = useLocation();
   const [pathname, setPathname] = React.useState(loc.pathname);
   const nav = useNavigate();
@@ -52,8 +52,16 @@ const App: React.FC<{
     fetchPolicy: 'no-cache',
     skip: Boolean(user?.id),
     onCompleted: (data) => {
-      setUser(data.me);
-      console.log('????');
+      setUser({
+        id: data.me?.id,
+        username: data.me?.username,
+        email: data.me?.email,
+      });
+      setUserSettings({
+        theme:data.me?.settings.theme,
+        language:data.me?.settings.language
+      });
+      // set
     },
   });
 
@@ -66,8 +74,7 @@ const App: React.FC<{
       });
       setPathname('/login');
     }
-    console.log(meData, 'meDatameDatameDatameData');
-  }, [meData, error]);
+  }, [error]);
 
   const [show, setShow] = React.useState(null);
 

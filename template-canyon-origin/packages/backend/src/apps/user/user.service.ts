@@ -20,6 +20,7 @@ export class UserService {
       },
     }).then(res=>{
       if (res){
+
         return {
           id: res.id,
           password: res.password,
@@ -30,8 +31,10 @@ export class UserService {
           favor: res.favor,
           createdAt: res.createdAt,
           settings: {
-            theme: 'dark',
-            language: 'zh-CN'
+            // @ts-ignore
+            theme: res.settings.theme || 'light',
+            // @ts-ignore
+            language: res.settings.language || 'en'
           }
         }
       } else {

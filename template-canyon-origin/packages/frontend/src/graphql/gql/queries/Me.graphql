@@ -8,6 +8,10 @@ query Me {
         #    refreshToken
         #    accessToken
         email
+      settings {
+        theme
+        language
+      }
 #        favor
 #        createdAt
     }

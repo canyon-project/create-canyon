@@ -11,26 +11,39 @@ export class UpdateUserSettingsService {
   }
   // 当前用户 currentUser
   async invoke(currentUser,args) {
+    console.log('currentUser',currentUser,'args',args)
+    const xiancha = await this.prisma.user.findFirst({
+      where:{
+        id:currentUser
+      }
+    })
+
     return this.prisma.user.update({
       where: {
         id: currentUser
       },
       data: {
         settings: {
+          // @ts-ignore
+          ...xiancha.settings,
           ...args
         }
       }
     }).then(r=>{
+      console.log(r)
       if (r) {
         return {
-          theme:'unknown',
+          // @ts-ignore
+          theme:r.settings.theme||'light',
+          // @ts-ignore
+          language:r.settings.language||'en',
         }
       } else {
-
         return {
-          // @ts-ignore
-          theme:r.settings.theme,
+          theme:'light',
+          language: 'en'
         }
+
       }
     })
   }

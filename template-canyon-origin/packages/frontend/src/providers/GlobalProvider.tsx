@@ -14,6 +14,7 @@ import { FC, useEffect, useState } from 'react';
 import useUserStore from '@/store/userStore.ts';
 import { useLocation } from '@tanstack/react-router';
 import { ThemeProvider } from '@emotion/react';
+import i18n from "@/i18n.ts";
 const languages = {
   cn: zhCN,
   en: enUS,
@@ -90,6 +91,7 @@ const GlobalProvider: FC<{
         'dark',
         userSettings?.theme === 'dark',
       );
+      i18n.changeLanguage(userSettings?.language);
     }, 100);
   }, [userSettings]);
   return (
