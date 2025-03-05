@@ -390,7 +390,7 @@ const SearchArea: React.FC<SearchAreaProps> = ({
   selectedType,
 }) => {
   return (
-    <div className="flex items-center justify-between mb-4 bg-white p-4 rounded-lg border border-gray-200">
+    <div className="flex items-center justify-between mb-4  p-4 rounded-lg border border-gray-200">
       {/*<div className="flex-1 max-w-md">*/}
       {/*  <Input*/}
       {/*    placeholder="搜索 Commit ID 或信息..."*/}
@@ -608,7 +608,6 @@ const PipelineCoverageDetails: React.FC = () => {
               {pipeline.reports && (
                 <Collapse
                   defaultActiveKey={['manual', 'automated']}
-                  // className="bg-white border-0 shadow-sm"
                 >
                   <Collapse.Panel
                     key="manual"
@@ -699,7 +698,7 @@ const PipelineCoverageDetails: React.FC = () => {
   );
 
   return (
-    <div className="  bg-black shadow w-full">
+    <div className="   shadow w-full">
       <div className="mb-4">
         {/* 添加 commit 信息显示 */}
         <div className=" p-3  text-sm">
