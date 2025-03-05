@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import {PrismaService} from "../../../prisma/prisma.service";
+import {userSettingZod} from "../user.zod";
 // import { UserSettings } from '../userSettings';
 // import { UserSettingsInput } from '../userSettingsInput';
 
@@ -24,26 +25,19 @@ export class UpdateUserSettingsService {
       },
       data: {
         settings: {
-          // @ts-ignore
-          ...xiancha.settings,
+          ...userSettingZod.parse(xiancha?.settings),
           ...args
         }
       }
     }).then(r=>{
       console.log(r)
       if (r) {
-        return {
-          // @ts-ignore
-          theme:r.settings.theme||'light',
-          // @ts-ignore
-          language:r.settings.language||'en',
-        }
+        return userSettingZod.parse(r.settings)
       } else {
         return {
-          theme:'light',
-          language: 'en'
+          theme:'auto',
+          language: 'auto'
         }
-
       }
     })
   }

@@ -1,6 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import { PrismaService } from "src/prisma/prisma.service";
 import {UserModel} from "./models/user.model";
+import {userSettingZod} from "./user.zod";
 
 // import { User as DbUser } from "../../../generated/client";
 // import { User } from "./models/user.model";
@@ -30,12 +31,7 @@ export class UserService {
           email: res.email,
           favor: res.favor,
           createdAt: res.createdAt,
-          settings: {
-            // @ts-ignore
-            theme: res.settings.theme || 'light',
-            // @ts-ignore
-            language: res.settings.language || 'en'
-          }
+          settings: userSettingZod.parse(res.settings),
         }
       } else {
         throw new Error('User not found')
