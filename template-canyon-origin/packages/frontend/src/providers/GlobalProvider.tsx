@@ -94,7 +94,7 @@ const GlobalProvider: FC<{
         themeValue === 'dark',
       );
       i18n.changeLanguage(userSettings?.language);
-    }, 100);
+    }, 0);
   }, [userSettings]);
   return (
     <>
