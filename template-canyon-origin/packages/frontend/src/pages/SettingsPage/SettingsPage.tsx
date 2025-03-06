@@ -1,20 +1,14 @@
-import { Breadcrumb, Tabs } from 'antd';
+import {Breadcrumb, Divider, Tabs} from 'antd';
 import UserSettings from '@/pages/SettingsPage/UserSettings.tsx';
 import useUserStore from '@/store/userStore.ts';
 import { useEffect } from 'react';
 
 const SettingsPage = () => {
-  const { setUser } = useUserStore();
-  useEffect(() => {
-    setUser({
-      username: '1',
-    });
-  }, []);
   return (
     <div>
       <div
         className={
-          'border-b border-gray-200  h-[48px] flex items-center px-[16px]'
+          'h-[48px] flex items-center px-[16px]'
         }
       >
         <Breadcrumb
@@ -34,6 +28,7 @@ const SettingsPage = () => {
           ]}
         />
       </div>
+      <Divider style={{ margin: '0' }} />
       <Tabs
         items={[
           {

@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { FolderOutlined, SettingOutlined } from '@ant-design/icons';
-import { Menu, MenuProps } from 'antd';
+import {Menu, MenuProps, theme} from 'antd';
 import Logo from '@/layouts/BaseLayout/Logo.tsx';
 import UserDropdown from '@/layouts/BaseLayout/UserPopover.tsx';
 import { useLocation, useNavigate } from '@tanstack/react-router';
@@ -9,6 +9,7 @@ import StructureLayout from '@/layouts/BaseLayout/StructureLayout.tsx';
 import { useQuery } from '@apollo/client';
 import { MeDocument } from '@/graphql/gen/graphql.ts';
 import useUserStore from '@/store/userStore.ts';
+import {css} from "@emotion/react";
 
 type MenuItem = Required<MenuProps>['items'][number];
 
@@ -26,9 +27,10 @@ function getItem(
   } as MenuItem;
 }
 
-const App: React.FC<{
+const BaseLayout: React.FC<{
   children?: React.ReactNode;
 }> = ({ children }) => {
+  const {token} = theme.useToken();
   const { user, setUser,setUserSettings } = useUserStore();
   const loc = useLocation();
   const [pathname, setPathname] = React.useState(loc.pathname);
@@ -93,6 +95,9 @@ const App: React.FC<{
             <>
               <Logo />
               <Menu
+                css={css`
+                  background-color: ${token.colorBgElevated};
+                `}
                 onSelect={(item) => {
                   setPathname(item.key);
                 }}
@@ -115,4 +120,4 @@ const App: React.FC<{
   );
 };
 
-export default App;
+export default BaseLayout;
