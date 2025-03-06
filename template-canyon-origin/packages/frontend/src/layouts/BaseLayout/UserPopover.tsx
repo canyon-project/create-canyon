@@ -1,6 +1,4 @@
 'use client';
-
-// import React, {useState} from "react"
 import {
   Avatar,
   Button,
@@ -26,7 +24,10 @@ import useUserStore from '@/store/userStore.ts';
 export default function UserPopover() {
   const { setUserSettings, userSettings, user } = useUserStore();
 
-  const { username, email, nickname } = user;
+  const { username, email } = user || {
+    username: 'Guest',
+    email: ''
+  };
 
   const [messageApi, contextHolder] = message.useMessage();
   const [updateUserSettings] = useMutation(UpdateUserSettingsDocument);
@@ -41,7 +42,6 @@ export default function UserPopover() {
           <Avatar src="/placeholder.svg?height=40&width=40" size={40} />
           <div>
             <div className="font-medium">{username}</div>
-            {/*<div className="text-emerald-600 text-sm">Premium</div>*/}
           </div>
         </div>
       </div>
@@ -86,21 +86,15 @@ export default function UserPopover() {
             ]}
             value={userSettings?.theme}
             onChange={(value) => {
-              // localStorage.setItem("theme", value);
-              // window.location.reload();
-
               updateUserSettings({
                 variables: {
                   theme: value,
                 },
-              }).then((r) => {
-                // console.log('message','message',useApp)
+              }).then(() => {
                 messageApi.success('Theme changed');
 
                 setUserSettings({
                   theme: value,
-                  language: userSettings?.language,
-                  defaultDimension: '2d',
                 });
               });
             }}
@@ -112,20 +106,17 @@ export default function UserPopover() {
             size={'small'}
             value={userSettings?.language}
             onChange={(value) => {
-              // 使用 changeLanguage 方法切换语言
               i18n.changeLanguage(value);
 
               updateUserSettings({
                 variables: {
                   language: value,
                 },
-              }).then((r) => {
+              }).then(() => {
                 messageApi.success('Language changed');
 
                 setUserSettings({
-                  theme: userSettings?.theme,
                   language: value,
-                  defaultDimension: '2d',
                 });
               });
             }}
@@ -143,7 +134,7 @@ export default function UserPopover() {
   );
 
   return (
-    <div className={''}>
+    <div>
       <Popover content={content} placement="topLeft" trigger="hover">
         <div className="flex items-center gap-3 p-2 m-1   cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg">
           <Avatar src="/placeholder.svg?height=32&width=32" size={32} />

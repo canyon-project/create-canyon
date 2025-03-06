@@ -29,8 +29,7 @@ const Sidebar = styled.div`
 const Content = styled.div`
   flex: 1;
   margin-left: 240px;
-  background-color: ${({ theme }: { theme: GlobalToken | any }) => {
-    console.log(theme.colorBgContainer, 'theme');
+  background-color: ${({ theme }: { theme: GlobalToken|any }) => {
     return theme.colorBgContainer;
   }};
 `;
@@ -39,8 +38,6 @@ const Content = styled.div`
 interface StructureLayoutProps {
   sidebar: React.ReactNode;
   children: React.ReactNode;
-  darkMode: boolean;
-  onDarkModeToggle: () => void;
 }
 
 // Create the StructureLayout component

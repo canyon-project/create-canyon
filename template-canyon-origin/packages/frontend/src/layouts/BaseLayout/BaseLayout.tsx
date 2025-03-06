@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { FolderOutlined, SettingOutlined } from '@ant-design/icons';
 import { Menu, MenuProps } from 'antd';
 import Logo from '@/layouts/BaseLayout/Logo.tsx';
-import UserDropdown from '@/layouts/BaseLayout/user-profile-popover.tsx';
+import UserDropdown from '@/layouts/BaseLayout/UserPopover.tsx';
 import { useLocation, useNavigate } from '@tanstack/react-router';
 import { useTranslation } from 'react-i18next';
 import StructureLayout from '@/layouts/BaseLayout/StructureLayout.tsx';
@@ -46,8 +46,6 @@ const App: React.FC<{
     getItem(t('menus.settings'), 'settings', <SettingOutlined />),
   ];
 
-  console.log(user?.id, 'user?.id');
-
   const { data: meData, error } = useQuery(MeDocument, {
     fetchPolicy: 'no-cache',
     skip: Boolean(user?.id),
@@ -56,19 +54,15 @@ const App: React.FC<{
         id: data.me?.id,
         username: data.me?.username,
         email: data.me?.email,
+        avatar:'',
+        nickname:''
       });
-
-      // let themeValue = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-      //
-      // if (data.me?.settings.theme !== 'auto') {
-      //   themeValue = data.me?.settings.theme;
-      // }
 
       setUserSettings({
         theme:data.me?.settings.theme,
-        language:data.me?.settings.language
+        language:data.me?.settings.language,
+        defaultDimension:''
       });
-      // set
     },
   });
 
@@ -83,11 +77,11 @@ const App: React.FC<{
     }
   }, [error]);
 
-  const [show, setShow] = React.useState(null);
+  const [show, setShow] = React.useState(false);
 
   useEffect(() => {
     if (meData) {
-      setShow(meData.me);
+      setShow(Boolean(meData.me));
     }
   }, [meData]);
 
@@ -99,7 +93,6 @@ const App: React.FC<{
             <>
               <Logo />
               <Menu
-                className={'bg-[#FAFAFA]'}
                 onSelect={(item) => {
                   setPathname(item.key);
                 }}

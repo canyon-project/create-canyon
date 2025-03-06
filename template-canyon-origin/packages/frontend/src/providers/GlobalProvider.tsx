@@ -5,15 +5,13 @@ import {
   createHttpLink,
   InMemoryCache,
 } from '@apollo/client';
-// import { message } from 'antd'; // 引入 Ant Design 的 message 组件
 import enUS from 'antd/es/locale/en_US';
 import jaJP from 'antd/es/locale/ja_JP';
 import zhCN from 'antd/es/locale/zh_CN';
-import { App, ConfigProvider, message, theme } from 'antd';
-import {FC, useEffect, useMemo, useState} from 'react';
+import { ConfigProvider, message, theme } from 'antd';
+import {FC, useEffect, useMemo} from 'react';
 import useUserStore from '@/store/userStore.ts';
 import { useLocation } from '@tanstack/react-router';
-import { ThemeProvider } from '@emotion/react';
 import i18n from "@/i18n.ts";
 const languages = {
   cn: zhCN,
@@ -85,21 +83,16 @@ const GlobalProvider: FC<{
   useEffect(() => {
     setTimeout(() => {
 
-
       let themeValue = userSettings?.theme;
       // 处理主题设置为 auto 的情况
       if (themeValue === 'auto') {
         themeValue = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
       }
 
-      // 设置主题
-      console.log(themeValue,'themeValue')
       document.documentElement.classList.toggle(
         'dark',
         themeValue === 'dark',
       );
-
-
       i18n.changeLanguage(userSettings?.language);
     }, 100);
   }, [userSettings]);
@@ -107,7 +100,6 @@ const GlobalProvider: FC<{
     <>
       <ApolloProvider client={client}>
         {contextHolder}
-        {/*<ThemeProvider theme={token}>*/}
         <ConfigProvider
           locale={languages[userSettings.language]}
           theme={{
@@ -119,7 +111,6 @@ const GlobalProvider: FC<{
         >
           {children}
         </ConfigProvider>
-        {/*</ThemeProvider>*/}
       </ApolloProvider>
     </>
   );
