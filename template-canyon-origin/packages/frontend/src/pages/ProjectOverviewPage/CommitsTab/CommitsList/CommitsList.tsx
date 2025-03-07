@@ -4,7 +4,6 @@ import { useState, useEffect } from "react"
 import { List, Badge, Spin, Input, Tooltip, Space } from "antd"
 import { SearchOutlined, TagsOutlined } from "@ant-design/icons"
 import { formatDistanceToNow } from "date-fns"
-import { Scrollbars } from "react-custom-scrollbars"
 
 // 扩展 Commit 接口，添加 branches 属性
 interface Commit {
@@ -101,7 +100,7 @@ const CommitsList = ({ commits, selectedCommit, onCommitSelect }: CommitsListPro
             <span className="text-xs text-gray-500 dark:text-gray-400">No matching commits</span>
           </div>
         ) : (
-          <Scrollbars autoHide style={{ width: "100%", height: "1000px" }}>
+          <>
             <List
               size="small"
               dataSource={filteredCommits}
@@ -169,7 +168,7 @@ const CommitsList = ({ commits, selectedCommit, onCommitSelect }: CommitsListPro
                 </List.Item>
               )}
             />
-          </Scrollbars>
+          </>
         )}
       </div>
     </div>

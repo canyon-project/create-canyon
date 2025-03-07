@@ -49,7 +49,7 @@ export default function StructureLayout({
     <Container>
       <Sidebar>{sidebar}</Sidebar>
       <Content>
-        <div className={'min-h-[100vh]'}>{children}</div>
+        <div>{children}</div>
         <Divider style={{ margin: '0' }} />
         <AppFooter />
       </Content>
