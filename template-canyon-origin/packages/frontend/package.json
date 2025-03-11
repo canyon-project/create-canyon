@@ -8,7 +8,8 @@
     "do-build": "vite build",
     "codegen": "graphql-codegen --config codegen.ts",
     "format": "prettier --write '**/*.{js,ts,jsx,tsx}'",
-    "postinstall": "npm run codegen"
+    "postinstall": "npm run codegen",
+    "test:run": "vitest run"
   },
   "dependencies": {
     "@ant-design/icons": "^5.6.1",
@@ -43,6 +44,7 @@
     "@types/react": "^19.0.10",
     "@types/react-dom": "^19.0.4",
     "@vitejs/plugin-react-swc": "latest",
+    "@vitest/coverage-istanbul": "3.0.8",
     "eslint": "latest",
     "eslint-config-prettier": "latest",
     "eslint-plugin-prettier": "latest",
